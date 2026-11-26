@@ -1,52 +1,50 @@
-# Profil développeur Compose
+# Profil développeur – Amélioration UI
 
 ## Description
 
-Cette application affiche une fiche « Profil développeur » sur un seul écran Jetpack Compose.
-La fiche présente un nom, un rôle, une courte description, trois compétences et une information
-de disponibilité. Un bouton « Contacter » permet de signaler une action à l'écran parent.
-Le clic appelle un callback vide, car aucune logique n'est demandée.
+Cette application Android affiche le profil d'un développeur sur un seul écran Jetpack Compose.
+L'écran présente un avatar avec badge, un nom, un rôle, une description, une liste de
+compétences, une liste de projets et une zone de contact avec un bouton « Contacter ».
+Toutes les données sont locales et écrites directement dans le code.
 
-## Notions utilisées
+## Composants Compose utilisés
 
-- composables et paramètres
-- `Modifier` et chaînage de modifiers
-- padding externe / padding interne
-- callbacks (`onClick: () -> Unit`)
-- `Scaffold` et `innerPadding`
-- `Button`
-- previews
+- `Text` : titres, descriptions, informations
+- `Button` : action principale « Contacter » (le clic appelle un callback `onContactClick`)
+- `Icon` : icônes dans le badge de l'avatar et dans les champs de contact
+- `Image` : avatar placeholder (icône vectorielle `Person`)
+- `Card` : une carte par projet (`ProjectCard`)
+- `OutlinedTextField` en lecture seule : email, localisation et disponibilité
+## Layouts utilisés
 
-## Explication courte
+- `Column` : structure verticale de l'en-tête et de la zone de contact
+- `Row` : alignement de l'avatar et du texte dans l'en-tête
+- `Box` : superposition du badge sur l'avatar
+- `Spacer` : espaces entre les éléments
+- `Surface` : zone de l'en-tête et fond de l'avatar et du badge
+- `LazyColumn` et `LazyRow` : listes
+## Listes avec LazyColumn et LazyRow
 
-1. **Composables créés** : `ProfilScreen`, `ProfilCard`, `ProfilHeader`, `Competence`,
-   `InfoDisponibilite`, `ActionButton`.
-2. **Écran principal** : `ProfilScreen`, appelé dans `setContent` de `MainActivity`.
-3. **Padding externe** :
-   - `Modifier.padding(innerPadding)` dans `MainActivity` : le `Scaffold` place l'écran en dehors
-     des barres système ;
-   - `Modifier.padding(16.dp)` passé par `ProfilScreen` à `ProfilCard` ;
-   - les `padding(top = ...)` passés par `ProfilCard` à ses composants enfants.
-4. **Padding interne** :
-   - `padding(16.dp)` sur la `Column` de `ProfilCard` (espace entre le bord de la fiche et son contenu) ;
-   - `padding(12.dp)` dans `InfoDisponibilite` ;
-   - `padding(start = 8.dp)` dans `Competence`.
-5. **Callback** : `ActionButton` reçoit `onClick`. Il signale le clic, c'est `MainActivity`
-   qui décide quoi faire (ici, rien pour le moment).
-6. **Accessibilité** : je n'ai pas créé de zone cliquable personnalisée, seulement un `Button`.
-   Le `Button` est déjà plus explicite qu'une simple zone cliquable : son rôle de bouton et son
-   texte (« Contacter ») sont annoncés automatiquement par les lecteurs d'écran, sans avoir besoin
-   d'ajouter `semantics`. Une zone cliquable personnalisée (`clickable` sur un `Text`) serait
-   annoncée comme un simple texte.
-7. **Réutilisables** : chaque composable reçoit ses données en paramètres (nom, compétence,
-   texte, callback) et accepte `modifier: Modifier = Modifier`, donc le parent choisit le
-   placement. Les deux previews le prouvent : mêmes composables, données différentes.
+- **`LazyColumn`** contient tout l'écran. Elle mélange des éléments uniques (`item` : en-tête,
+  description, titres de section, contact) et une collection (`items`) : la liste des projets.
+  Chaque projet est affiché avec le composable réutilisable `ProjectCard`, et `key = { projet.id }`
+  donne une identité stable à chaque élément.
+- **`LazyRow`** affiche les compétences horizontalement. Chaque compétence est affichée avec
+  le composable `TechnologyChip`.
+## Choix de thème
 
-## Chaîne de modifiers
+- **Couleurs** : deux palettes (`lightColorScheme` et `darkColorScheme`) en vert, choisies selon
+  `isSystemInDarkTheme()`. Les composants utilisent
+  `MaterialTheme.colorScheme` et jamais de couleur écrite en dur.
+- **Typographie** : quelques styles personnalisés (`headlineMedium`, `titleLarge`, `titleMedium`,
+  `bodyMedium`, `labelLarge`).
+- **Formes** : des arrondis personnalisés (`MaterialTheme.shapes`).
+- **Clair / sombre** : deux previews permettent de comparer les deux modes.
 
-Dans `InfoDisponibilite` : `modifier.fillMaxWidth().padding(12.dp)` — le texte occupe toute la
-largeur de la fiche, puis on ajoute un espace interne autour.
+## Notions du chapitre Compose UI réutilisées
 
-## Capture d'écran
-
-![Application lancée](app/captures/appli.png)
+Composants : (`Text`, `Button`, `Icon`, `Image`, `Card`,
+`OutlinedTextField`), layouts (`Column`, `Row`, `Box`, `Spacer`, `Surface`), listes modernes
+(`LazyColumn`, `LazyRow`, `items`, `key`), Material Design 3 (`ColorScheme`, `Typography`,
+`Shapes`) et thème clair / sombre.
+ 
