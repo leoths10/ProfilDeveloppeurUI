@@ -364,3 +364,11 @@ fun ProfilScreenPreview() {
         ProfilScreen(profil = sampleProfil(), onContactClick = {})
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun ProfilScreenDarkPreview(){
+    ProfilDeveloppeurTheme(darkTheme = true) {
+        ProfilScreen(profil = sampleProfil(), onContactClick = {})
+    }
+}
