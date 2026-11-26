@@ -179,3 +179,55 @@ fun ProfilScreen(
         )
     }
 }
+
+
+data class ProjetUi(
+    val id: Int,
+    val titre: String,
+    val description: String,
+    val technologies: String
+)
+
+data class ProfilUi(
+    val nom: String,
+    val role: String,
+    val description: String,
+    val competences: List<String>,
+    val projets: List<ProjetUi>,
+    val email: String,
+    val localisation: String,
+    val disponibilite: String
+)
+
+fun sampleProfil(): ProfilUi{
+    return ProfilUi(
+        nom = "Léo THOMAS",
+        role = "Developpeur Full-Stack",
+        description = "Etudiant en Master 1 Ingénierie du web à l'ESGI de Tours, " +
+                "actuellement en alternance",
+        competences = listOf("Typescript", "PHP", "Python", "Kotlin", "Git"),
+        projets = listOf(
+            ProjetUi(
+                id = 1,
+                titre = "Site e-commerce",
+                description = "Boutique en ligne avec panier et espace client",
+                technologies = "PHP -- MySQL"
+            ),
+            ProjetUi(
+                id = 2,
+                titre = "Application de tâches",
+                description = "Gestion de tâches avec filtres et rappels",
+                technologies = "TypeScript -- React"
+            ),
+            ProjetUi(
+                id = 3,
+                titre = "Profil développeur",
+                description = "Application Android réalisée avec Jetpack Compose.",
+                technologies = "Kotlin • Compose"
+            )
+        ),
+        email = "leo.thomas@example.com",
+        localisation = "Tours, France",
+        disponibilite = "Actuellement en alternance"
+    )
+}
