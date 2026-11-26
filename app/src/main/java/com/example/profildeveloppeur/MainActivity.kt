@@ -33,9 +33,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.vector.ImageVector
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -353,3 +357,57 @@ fun ProfilAvatarPreview(){
     }
 }
 
+@Composable
+fun ContactField(
+    label: String,
+    valeur: String,
+    icone: ImageVector,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = valeur,
+        onValueChange = {},
+        readOnly = true,
+        label = { Text(text = label)},
+        leadingIcon = {
+            Icon(imageVector = icone, contentDescription = null)
+        },
+        modifier = modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun ContactSection(
+    profil : ProfilUi,
+    onContactClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = "Contact",
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        ContactField(label = "Email", valeur = profil.email, icone = Icons.Default.Email)
+        Spacer(modifier = Modifier.height(8.dp))
+        ContactField(label = "Localisation", valeur = profil.localisation, icone = Icons.Default.LocationOn)
+        Spacer(modifier = Modifier.height(8.dp))
+        ContactField(label = "Disponibilité", valeur = profil.disponibilite, icone = Icons.Default.Check)
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = onContactClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Contacter")
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ContactSectionPreview(){
+    ProfilDeveloppeurTheme {
+        ContactSection(profil = sampleProfil(), onContactClick = {})
+    }
+}
