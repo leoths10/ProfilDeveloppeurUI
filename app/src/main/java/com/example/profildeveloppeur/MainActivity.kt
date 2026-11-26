@@ -1,15 +1,21 @@
 package com.example.profildeveloppeur
 
+import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.content.MediaType.Companion.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -19,9 +25,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.profildeveloppeur.ui.theme.ProfilDeveloppeurTheme
+import androidx.compose.foundation.Image
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -298,3 +312,44 @@ fun ProjetCardPreview(){
         ProjetCard(projet = sampleProfil().projets.first())
     }
 }
+
+@Composable
+fun ProfilAvatar(modifier: Modifier = Modifier){
+    Box(modifier = modifier.size(96.dp)){
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.secondary
+        ) {
+            Image(
+                imageVector = Icons.Default.Person,
+                contentDescription = "Avatar du développeur",
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondary),
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        Surface(
+            modifier = Modifier
+                .size(28.dp)
+                .align(Alignment.BottomEnd),
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.primary
+        ) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.padding(4.dp)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfilAvatarPreview(){
+    ProfilDeveloppeurTheme {
+        ProfilAvatar()
+    }
+}
+
